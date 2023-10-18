@@ -3,12 +3,28 @@ name: CI/CD Workflow
 on:
   workflow_dispatch:
       
+
+
 jobs:
-  build:
-    name: Build and Test
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
-      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Deploy to Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ssh-keyscan -H ${{PRIVATE_HOST}}>> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i malak/home/.ssh/id_rsa ${{PRIVATE_USERNAME}}@${{PRIVATE_HOST}} "cd /var/www/webapp && git pull origin main && python your_script.py"
