@@ -25,6 +25,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh-keyscan -H ${{PRIVATE_HOST}}>> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{secrets.PRIVATE_HOST}}>> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa
-          ssh -i malak/home/.ssh/id_rsa ${{PRIVATE_USERNAME}}@${{PRIVATE_HOST}} "cd /var/www/webapp && git pull origin main && python your_script.py"
+          ssh -i malak/home/.ssh/id_rsa ${{secrets.PRIVATE_USERNAME}}@${{secrets.PRIVATE_HOST}} "cd /var/www/webapp && git pull origin main && python your_script.py"
