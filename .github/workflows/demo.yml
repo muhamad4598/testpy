@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to Server
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
         run: |
           ssh-keyscan -H ${{secrets.PRIVATE_HOST}}>> /home/malak/.ssh/id_rsa
           chmod 600 home/malak/.ssh/id_rsa
